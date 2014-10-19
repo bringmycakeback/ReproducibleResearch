@@ -5,6 +5,14 @@ date: "October 19, 2014"
 output: html_document
 ---
 
+```{r setoptions }
+library(knitr)
+opts_chunk$set(fig.path = "figures/" )
+
+```
+
+
+
 This Rmarkdown document represents my submission for the Reproducible Research Coursera class's peer assesment 1.
 
 ## Loading and preprocessing the data
@@ -23,7 +31,7 @@ daily_steps_df <- aggregate(steps ~ date, data=df, sum)
 
 The following R code chuck calculates the mean and median of the total steps per day, and outpust a histogram showing the total steps for days included in the dataset.
 
-```{r}
+```{r daily_histogram}
 mean(daily_steps_df$steps)
 median(daily_steps_df$steps)
 hist(daily_steps_df$steps, breaks=20, main="Histogram of Steps per Day")
@@ -33,7 +41,7 @@ hist(daily_steps_df$steps, breaks=20, main="Histogram of Steps per Day")
 
 The following R code chunk shows the daily pattern of steps across all 5 minute intervals, averaged across all days.
 
-```{r}
+```{r daily_pattern}
 # convert to interval averages
 interval_steps_df <- aggregate(steps ~ interval, data=df, mean)
 
@@ -49,7 +57,7 @@ interval_steps_df[which.max(interval_steps_df$steps),]
 This R code chunk outputs the numer of rows where the steps column is filled with NA.  It then fills in those missing values with the overall mean for the 5-minute interval.  *As it turns out, imputing the data in this fashion does not change the overall averages very much.  The median daily value remains the same, and the mean rises by 1.  In the daily average histogram, there are more days around the average peak, which makes the graph look taller in the middle and shorter towards each extreme.*
 
 
-```{r}
+```{r imputed_histogram}
 # Output total rows with steps = NA
 sum(is.na(df$steps))
 
@@ -73,7 +81,7 @@ hist(daily_imputed_steps_df$imputed_steps, breaks=20, main="Histogram of Steps p
 
 The following R code chunk categories the imputed data by the day of the week, and shows that weekends show a different pattern in step activity. 
 
-```{r}
+```{r weekend_pattern}
 
 imputed_df$day_of_week <- weekdays(as.Date(imputed_df$date))
 
